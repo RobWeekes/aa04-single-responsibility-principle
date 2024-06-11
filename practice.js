@@ -39,8 +39,10 @@ const recipes = {
 //   const recipe = findRecipe(pieType);
 //   console.log(recipe);
 
-function bakePies(pieQuantity) {
-  for (let i = 0; i < pieQuantity; i++) {
+function bakePies(pieQuantity, pieType) {
+  let recipe = recipes[pieType];
+  // console.log(recipe);
+    for (let i = 0; i < pieQuantity; i++) {
     // Print the ingredients for each ingredient in the recipe
     let combiningMsg = `Combining ingredients for ${pieType}: `
     combiningMsg += recipe.map(ingredient => ingredient.name).join(', ');
@@ -48,6 +50,7 @@ function bakePies(pieQuantity) {
 
     // Print the nth pie that was baked
     console.log(`Baked pie ${i + 1}!`);
+  }
 }
 
 function pieCost(recipe) {
@@ -55,14 +58,17 @@ function pieCost(recipe) {
     return prev + current.cost;
   }, recipe[0].cost);
   console.log(`Cost per pie: ${costOfPie}`);
+  return costOfPie;
 }
 
-function piesCost(pieQuantity) {
+function piesCost(pieQuantity, costOfPie) {
   return costOfPie * pieQuantity;
 }
 
-function findRevenue(profitMargin) {
+function findRevenue(profitMargin, totalCost, pieQuantity) {
   const revenue = totalCost * (profitMargin || 1.2);
+  // console.log(totalCost);
+  // console.log(revenue);
   console.log(`Sold ${pieQuantity} pies for $${revenue.toFixed(2)}!`);
 }
 
@@ -70,10 +76,10 @@ function findRevenue(profitMargin) {
 function bakeAndSellPies(pieType, pieQuantity, profitMargin) {
   // Find the recipe for the pieType specified
   const recipe = recipes[pieType];
-  console.log(recipe);
+  // console.log(recipe);
 
   // Bake the number of pies specified by the pieQuantity
-  bakePies(pieQuantity);
+  bakePies(pieQuantity, pieType);
   // for (let i = 0; i < pieQuantity; i++) {
   //   // Print the ingredients for each ingredient in the recipe
   //   let combiningMsg = `Combining ingredients for ${pieType}: `
@@ -82,24 +88,25 @@ function bakeAndSellPies(pieType, pieQuantity, profitMargin) {
 
   //   // Print the nth pie that was baked
   //   console.log(`Baked pie ${i + 1}!`);
-  }
+
 
   // Print the cost of each pie based on the cost of each ingredient
-  pieCost();
+  let costofPie = pieCost(recipe);
   // const costOfPie = recipe.reduce((prev, current) => {
   //   return prev + current.cost;
   // }, recipe[0].cost);
   // console.log(`Cost per pie: ${costOfPie}`);
 
   // Calculate the total cost of all the pies
-  const totalCost = piesCost(pieQuantity);
+  const totalCost = piesCost(pieQuantity, costofPie);
   // const totalCost = costOfPie * pieQuantity;
 
   // Print the total revenue calculated using the given profitMargin
-  findRevenue(profitMargin);
+  findRevenue(profitMargin, totalCost, pieQuantity);
   // const revenue = totalCost * (profitMargin || 1.2);
   // console.log(`Sold ${pieQuantity} pies for $${revenue.toFixed(2)}!`);
 }
+
 
 /******************************* LOCAL TESTS *******************************/
 // bakeAndSellPies("applePie", 5, 2.5);
